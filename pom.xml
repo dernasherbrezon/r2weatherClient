@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.r2cloud</groupId>
 	<artifactId>r2weatherClient</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<url>https://github.com/dernasherbrezon/r2weatherClient</url>
 	<name>r2weatherClient</name>
 	<description>Client for r2weather.ru service</description>
