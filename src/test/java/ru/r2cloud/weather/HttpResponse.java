@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.zip.GZIPInputStream;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -38,19 +39,11 @@ public class HttpResponse implements HttpHandler {
 	private static String convertToString(InputStream is) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			copy(is, baos);
+			new GZIPInputStream(is).transferTo(baos);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return convertToHex(baos.toByteArray());
-	}
-
-	public static void copy(InputStream input, OutputStream output) throws IOException {
-		byte[] buffer = new byte[1024 * 4];
-		int n = 0;
-		while (-1 != (n = input.read(buffer))) {
-			output.write(buffer, 0, n);
-		}
 	}
 
 	private static String convertToHex(final byte[] data) {

@@ -1,6 +1,7 @@
 package ru.r2cloud.weather;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.Date;
-import java.util.function.Supplier;
+import java.util.zip.GZIPOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class R2WeatherClient {
 
 	private static final Logger LOG = LoggerFactory.getLogger(R2WeatherClient.class);
-	private static final String USER_AGENT = "r2weatherClient/1.0 (dernasherbrezon)";
+	private static final String USER_AGENT = "r2weatherClient/1.1 (dernasherbrezon)";
 	private static final int DEFAULT_TIMEOUT = 30_000;
 	private static final long LAUNCH_TIME = 1404777600000L;
 
@@ -63,18 +64,18 @@ public class R2WeatherClient {
 		if (receptionTimeMillis < LAUNCH_TIME) {
 			throw new IllegalArgumentException("invalid reception time: " + receptionTimeMillis);
 		}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		GZIPOutputStream gzip = new GZIPOutputStream(baos);
+		is.transferTo(gzip);
+		gzip.close();
 
 		Builder result = HttpRequest.newBuilder().uri(URI.create(host + "/api/v1/lrpt/" + receptionTimeMillis));
 		result.timeout(Duration.ofMillis(timeoutMillis));
 		result.header("User-Agent", USER_AGENT);
 		result.header("Content-Type", "application/octet-stream");
 		result.header("Authorization", apiKey);
-		result.PUT(BodyPublishers.ofInputStream(new Supplier<InputStream>() {
-			@Override
-			public InputStream get() {
-				return is;
-			}
-		}));
+		result.header("Content-Encoding", "gzip");
+		result.PUT(BodyPublishers.ofByteArray(baos.toByteArray()));
 
 		HttpRequest request = result.build();
 		HttpResponse<String> response;
