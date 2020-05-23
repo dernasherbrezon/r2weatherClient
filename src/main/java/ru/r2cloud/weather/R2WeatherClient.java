@@ -17,6 +17,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Properties;
 import java.util.zip.GZIPOutputStream;
 
 import org.slf4j.Logger;
@@ -25,7 +26,6 @@ import org.slf4j.LoggerFactory;
 public class R2WeatherClient {
 
 	private static final Logger LOG = LoggerFactory.getLogger(R2WeatherClient.class);
-	private static final String USER_AGENT = "r2weatherClient/1.1 (dernasherbrezon)";
 	private static final int DEFAULT_TIMEOUT = 30_000;
 	private static final long LAUNCH_TIME = 1404777600000L;
 
@@ -34,6 +34,16 @@ public class R2WeatherClient {
 	private final int timeoutMillis;
 	private HttpClient httpclient;
 
+	private static String USER_AGENT;
+
+	static {
+		String version = readVersion();
+		if (version == null) {
+			version = "1.1";
+		}
+		USER_AGENT = "r2weatherClient/" + version + " (dernasherbrezon)";
+	}
+	
 	public R2WeatherClient(String host, String apiKey) {
 		this(host, apiKey, DEFAULT_TIMEOUT);
 	}
@@ -97,4 +107,17 @@ public class R2WeatherClient {
 		}
 	}
 
+	private static String readVersion() {
+		try {
+			Properties p = new Properties();
+			InputStream is = R2WeatherClient.class.getClassLoader().getResourceAsStream("/META-INF/maven/ru.r2cloud/r2weatherClient/pom.properties");
+			if (is != null) {
+				p.load(is);
+				return p.getProperty("version", null);
+			}
+			return null;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
