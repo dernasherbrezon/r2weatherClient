@@ -34,16 +34,16 @@ public class R2WeatherClient {
 	private final int timeoutMillis;
 	private HttpClient httpclient;
 
-	private static String USER_AGENT;
+	private static String userAgent;
 
 	static {
 		String version = readVersion();
 		if (version == null) {
 			version = "1.1";
 		}
-		USER_AGENT = "r2weatherClient/" + version + " (dernasherbrezon)";
+		userAgent = "r2weatherClient/" + version + " (dernasherbrezon)";
 	}
-	
+
 	public R2WeatherClient(String host, String apiKey) {
 		this(host, apiKey, DEFAULT_TIMEOUT);
 	}
@@ -81,7 +81,7 @@ public class R2WeatherClient {
 
 		Builder result = HttpRequest.newBuilder().uri(URI.create(host + "/api/v1/lrpt/" + receptionTimeMillis));
 		result.timeout(Duration.ofMillis(timeoutMillis));
-		result.header("User-Agent", USER_AGENT);
+		result.header("User-Agent", userAgent);
 		result.header("Content-Type", "application/octet-stream");
 		result.header("Authorization", apiKey);
 		result.header("Content-Encoding", "gzip");
@@ -108,10 +108,9 @@ public class R2WeatherClient {
 	}
 
 	private static String readVersion() {
-		try {
-			Properties p = new Properties();
-			InputStream is = R2WeatherClient.class.getClassLoader().getResourceAsStream("/META-INF/maven/ru.r2cloud/r2weatherClient/pom.properties");
+		try (InputStream is = R2WeatherClient.class.getClassLoader().getResourceAsStream("META-INF/maven/ru.r2cloud/r2weatherClient/pom.properties")) {
 			if (is != null) {
+				Properties p = new Properties();
 				p.load(is);
 				return p.getProperty("version", null);
 			}

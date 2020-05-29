@@ -16,7 +16,8 @@ public class HttpResponse implements HttpHandler {
 
 	private final int statusCode;
 	private final String message;
-
+	
+	private String userAgent;
 	private String requestBody;
 	private int executedTimes;
 
@@ -27,6 +28,7 @@ public class HttpResponse implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
+		userAgent = exchange.getRequestHeaders().getFirst("User-Agent");
 		requestBody = convertToString(exchange.getRequestBody());
 		executedTimes++;
 		byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
@@ -77,5 +79,9 @@ public class HttpResponse implements HttpHandler {
 
 	public int getStatusCode() {
 		return statusCode;
+	}
+	
+	public String getUserAgent() {
+		return userAgent;
 	}
 }

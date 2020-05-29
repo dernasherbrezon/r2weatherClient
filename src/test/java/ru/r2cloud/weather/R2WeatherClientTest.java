@@ -44,6 +44,7 @@ public class R2WeatherClientTest {
 		}
 		client.upload(file, receptionTime);
 		assertEquals("cafe", bulkHandler.getRequestBody());
+		assertEquals("r2weatherClient/test-1.0 (dernasherbrezon)", bulkHandler.getUserAgent());
 	}
 
 	@Test(expected = AuthenticationException.class)

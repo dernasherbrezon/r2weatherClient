@@ -8,7 +8,7 @@ addons:
       secure: "rG8kAGQi1xBpPGslcjwVWsHByI8XB/Qc97tI1XZ2PmeBs4nzE294S/ZH1TVhsryndhgtv7cnpCEjBqevvJSYdLI022Z8WR3rOy/rovVZe18FQWoXm+5rEq8K3ltkyAgi0+THrydLo6GIAb77gs1X+XJErnfAP/hIoQUYjPZrFcPYSn63L5kLVFatUgj4vE4KcN3uOveFEVgKFnyhDJLsWBGeeg5ywXW+jIGMO796Yp5v+m3/nduvxKPWtk1IkIlt5lhbGWV6JGmfXA1gDcjAa7IU5Fy1otK4F4R7p36feToAS8AF21/vB2U7FyKluVNv5i4k705UqMFC1Njz/oZIR6i0cOelIF1Sn66GN3YDLKDltg7bkYD8qiRZwaPPYd+du9LCHbd/U618Vb4qjURuXHIWomG3hulIFfY1Yb7+Gq5Dzk/F9ZVfAYzXLOMLyrqqt1ZxWpywbpFZBnGN9k0PqMrsFUGMa4pzE4hY4CUsiR6soUvdphiZRtAaHYeisj8tX/+EE++Qi75OAiL4Xv7FaO9on/lmCpMp/wiNnlrR6GM10LEpo2f6VET1D+V81MbzQJKf/NLvqNzgzsa1wmeM4GHaWG5jdVzLGfpVYst1PeQa038zzRbRMBnKz7r/QlD+StdrK255UltWJaxfyQFksHNVzrvuRR2NNnRw2H1+R5E="
 
 script:
-  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.scm.disabled=true -Dsonar.language=java
+  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.scm.disabled=true -Dsonar.language=java -Dsonar.java.source=1.8
 
 cache:
   directories:
