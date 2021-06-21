@@ -1,4 +1,4 @@
-# About [![Build Status](https://travis-ci.org/dernasherbrezon/r2weatherClient.svg?branch=master)](https://travis-ci.org/dernasherbrezon/r2weatherClient) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ru.r2cloud%3Ar2weatherClient&metric=alert_status)](https://sonarcloud.io/dashboard?id=ru.r2cloud%3Ar2weatherClient)
+# About [![Build Status](https://travis-ci.com/dernasherbrezon/r2weatherClient.svg?branch=master)](https://travis-ci.com/dernasherbrezon/r2weatherClient) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ru.r2cloud%3Ar2weatherClient&metric=alert_status)](https://sonarcloud.io/dashboard?id=ru.r2cloud%3Ar2weatherClient)
 
 Java client for sending data to [r2weather](https://r2weather.ru) service.
 
